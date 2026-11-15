@@ -1,0 +1,793 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyMate | Student Dashboard</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #fff7fc;
+    color: #45354e;
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(120deg, #f5c6e6, #d9c5ff);
+    padding: 25px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    color: #754b91;
+}
+
+header p {
+    color: #765d83;
+    margin-top: 5px;
+}
+
+.date-label {
+    background: white;
+    padding: 10px 16px;
+    border-radius: 20px;
+    color: #865c9b;
+    font-size: 14px;
+}
+
+.container {
+    max-width: 1150px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    font-size: 28px;
+    color: #704d85;
+    margin-bottom: 7px;
+}
+
+.welcome p {
+    color: #927d9c;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px #e9d9ed;
+}
+
+.stat-icon {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.stat-number {
+    font-size: 27px;
+    font-weight: bold;
+    color: #8057a0;
+}
+
+.stat-title {
+    color: #9b86a5;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.section-title {
+    font-size: 20px;
+    color: #754e8d;
+    margin-bottom: 18px;
+}
+
+.add-form {
+    display: grid;
+    gap: 12px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ead9f0;
+    border-radius: 9px;
+    outline: none;
+    background: #fffaff;
+    color: #5e4968;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    border-color: #b58bd4;
+}
+
+button {
+    border: none;
+    padding: 11px 15px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+button:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+.primary-btn {
+    background: linear-gradient(120deg, #e9a9d1, #b99be8);
+    color: white;
+}
+
+.task-controls {
+    display: grid;
+    grid-template-columns: 1fr 130px;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.task-item {
+    background: #fff8ff;
+    border: 1px solid #f0e2f3;
+    border-radius: 11px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.task-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.task-name {
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.task-meta {
+    color: #987fa4;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.completed .task-name {
+    text-decoration: line-through;
+    color: #a99bad;
+}
+
+.priority {
+    font-size: 11px;
+    padding: 5px 9px;
+    border-radius: 15px;
+    background: #f4e7ff;
+    white-space: nowrap;
+    height: fit-content;
+}
+
+.task-actions {
+    display: flex;
+    gap: 7px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.task-actions button {
+    font-size: 12px;
+    padding: 8px 11px;
+}
+
+.done-btn {
+    background: #d9f3e4;
+    color: #39815a;
+}
+
+.edit-btn {
+    background: #fff0cf;
+    color: #986c2b;
+}
+
+.delete-btn {
+    background: #ffe0e8;
+    color: #b34f70;
+}
+
+.progress-box {
+    margin-bottom: 22px;
+}
+
+.progress-track {
+    background: #f1e8f5;
+    height: 12px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #e9a9d1, #a98ae2);
+    border-radius: 20px;
+    transition: width 0.3s;
+}
+
+.progress-text {
+    color: #91799e;
+    font-size: 13px;
+}
+
+.timer {
+    text-align: center;
+    background: linear-gradient(145deg, #fbe3f3, #e8dcff);
+    border-radius: 15px;
+    padding: 25px 15px;
+    margin-top: 20px;
+}
+
+.timer h2 {
+    color: #805c96;
+    margin-bottom: 10px;
+}
+
+.timer-display {
+    font-size: 48px;
+    font-weight: bold;
+    color: #875b9d;
+    margin: 15px 0;
+}
+
+.timer-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.timer-buttons button {
+    background: white;
+    color: #805c96;
+}
+
+.empty {
+    text-align: center;
+    padding: 25px;
+    color: #a58eaf;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #a28baa;
+    font-size: 13px;
+}
+
+@media(max-width: 800px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 450px) {
+    .task-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome h1 {
+        font-size: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <div class="logo">🌸 StudyMate</div>
+        <p>Your Personal Study Dashboard</p>
+    </div>
+    <div class="date-label" id="todayDate"></div>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h1>Welcome Back, Student! 💗</h1>
+        <p>Small steps every day lead to big success.</p>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats">
+
+        <div class="card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-number" id="totalCount">0</div>
+            <div class="stat-title">Total Tasks</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-number" id="pendingCount">0</div>
+            <div class="stat-title">Pending Tasks</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-number" id="completedCount">0</div>
+            <div class="stat-title">Completed Tasks</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-number" id="progressCount">0%</div>
+            <div class="stat-title">Your Progress</div>
+        </div>
+
+    </div>
+
+    <div class="main-grid">
+
+        <!-- Left Section -->
+        <div>
+
+            <div class="card">
+                <h2 class="section-title">✨ Add New Study Task</h2>
+
+                <form class="add-form" id="taskForm">
+
+                    <input
+                        type="text"
+                        id="taskInput"
+                        placeholder="What do you want to study?"
+                        required
+                    >
+
+                    <select id="subject">
+                        <option value="Java">Java</option>
+                        <option value="DSA">DSA</option>
+                        <option value="DBMS">DBMS</option>
+                        <option value="Computer Graphics">Computer Graphics</option>
+                        <option value="Operating System">Operating System</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <input type="date" id="taskDate">
+
+                    <select id="priority">
+                        <option value="Low">Low Priority</option>
+                        <option value="Medium" selected>Medium Priority</option>
+                        <option value="High">High Priority</option>
+                    </select>
+
+                    <button class="primary-btn" type="submit">
+                        + Add My Task
+                    </button>
+
+                </form>
+            </div>
+
+            <div class="card" style="margin-top:20px;">
+
+                <h2 class="section-title">📖 My Study Tasks</h2>
+
+                <div class="task-controls">
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search tasks..."
+                    >
+
+                    <select id="filterSelect">
+                        <option value="All">All Tasks</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+
+                <div id="taskList"></div>
+
+            </div>
+
+        </div>
+
+        <!-- Right Section -->
+        <div>
+
+            <div class="card progress-box">
+                <h2 class="section-title">🌷 Daily Progress</h2>
+
+                <p id="progressMessage">
+                    Start your study journey!
+                </p>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+
+                <p class="progress-text" id="progressLabel">
+                    0% Completed
+                </p>
+            </div>
+
+            <!-- Focus Timer -->
+            <div class="timer">
+
+                <h2>⏰ Focus Timer</h2>
+                <p>Stay focused and achieve your goals!</p>
+
+                <div class="timer-display" id="timerDisplay">
+                    25:00
+                </div>
+
+                <div class="timer-buttons">
+                    <button id="startBtn">Start</button>
+                    <button id="pauseBtn">Pause</button>
+                    <button id="resetBtn">Reset</button>
+                </div>
+
+                <p style="margin-top:15px;font-size:12px;color:#886d99;">
+                    25 Minutes Focus Session
+                </p>
+
+            </div>
+
+            <div class="card" style="margin-top:20px;">
+                <h2 class="section-title">💡 Study Motivation</h2>
+                <p style="line-height:1.7;color:#927d9c;">
+                    "Believe in yourself. Every small effort
+                    you make today builds a better tomorrow."
+                </p>
+                <p style="margin-top:12px;color:#ba83b7;">
+                    Keep Learning, Keep Growing! 🌸
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    Made with 💗 | StudyMate Student Dashboard
+</footer>
+
+<script>
+
+// Get HTML Elements
+const taskForm = document.getElementById("taskForm");
+const taskInput = document.getElementById("taskInput");
+const subject = document.getElementById("subject");
+const taskDate = document.getElementById("taskDate");
+const priority = document.getElementById("priority");
+const taskList = document.getElementById("taskList");
+
+const searchInput = document.getElementById("searchInput");
+const filterSelect = document.getElementById("filterSelect");
+
+// Load saved tasks
+let tasks = [];
+
+try {
+    tasks = JSON.parse(localStorage.getItem("studyMateTasks")) || [];
+    if (!Array.isArray(tasks)) tasks = [];
+} catch {
+    tasks = [];
+}
+
+// Save tasks
+function saveTasks() {
+    localStorage.setItem("studyMateTasks", JSON.stringify(tasks));
+}
+
+// Show current date
+document.getElementById("todayDate").textContent =
+    new Date().toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+
+// Update statistics
+function updateStats() {
+
+    const total = tasks.length;
+
+    const completed = tasks.filter(
+        task => task.completed
+    ).length;
+
+    const pending = total - completed;
+
+    const progress = total === 0
+        ? 0
+        : Math.round((completed / total) * 100);
+
+    document.getElementById("totalCount").textContent = total;
+    document.getElementById("pendingCount").textContent = pending;
+    document.getElementById("completedCount").textContent = completed;
+    document.getElementById("progressCount").textContent = progress + "%";
+
+    document.getElementById("progressBar").style.width =
+        progress + "%";
+
+    document.getElementById("progressLabel").textContent =
+        progress + "% Completed";
+
+    document.getElementById("progressMessage").textContent =
+        total === 0
+        ? "Start your study journey!"
+        : progress === 100
+        ? "Amazing! All tasks completed! 🏆"
+        : "You are making progress. Keep going! 💗";
+}
+
+// Display tasks
+function displayTasks() {
+
+    taskList.innerHTML = "";
+
+    const search = searchInput.value.toLowerCase();
+    const filter = filterSelect.value;
+
+    const filteredTasks = tasks
+        .map((task, index) => ({ task, index }))
+        .filter(({task}) => {
+
+            const matchesSearch =
+                task.text.toLowerCase().includes(search) ||
+                task.subject.toLowerCase().includes(search);
+
+            const matchesFilter =
+                filter === "All" ||
+                (filter === "Pending" && !task.completed) ||
+                (filter === "Completed" && task.completed);
+
+            return matchesSearch && matchesFilter;
+        });
+
+    if (filteredTasks.length === 0) {
+        taskList.innerHTML =
+            '<div class="empty">🌸 No tasks found. Add a new task!</div>';
+    }
+
+    filteredTasks.forEach(({task, index}) => {
+
+        const li = document.createElement("div");
+        li.className = "task-item";
+
+        if (task.completed) {
+            li.classList.add("completed");
+        }
+
+        const top = document.createElement("div");
+        top.className = "task-top";
+
+        const info = document.createElement("div");
+
+        const name = document.createElement("div");
+        name.className = "task-name";
+        name.textContent = task.text;
+
+        const meta = document.createElement("div");
+        meta.className = "task-meta";
+        meta.textContent =
+            task.subject + " • " +
+            (task.date || "No due date");
+
+        info.appendChild(name);
+        info.appendChild(meta);
+
+        const badge = document.createElement("span");
+        badge.className = "priority";
+        badge.textContent = task.priority;
+
+        top.appendChild(info);
+        top.appendChild(badge);
+
+        const actions = document.createElement("div");
+        actions.className = "task-actions";
+
+        // Complete button
+        const doneBtn = document.createElement("button");
+        doneBtn.className = "done-btn";
+        doneBtn.textContent =
+            task.completed ? "Undo" : "✓ Complete";
+
+        doneBtn.onclick = function() {
+            tasks[index].completed = !tasks[index].completed;
+            saveTasks();
+            displayTasks();
+        };
+
+        // Edit button
+        const editBtn = document.createElement("button");
+        editBtn.className = "edit-btn";
+        editBtn.textContent = "✎ Edit";
+
+        editBtn.onclick = function() {
+
+            const newText = prompt(
+                "Edit task:",
+                task.text
+            );
+
+            if (newText === null) return;
+
+            if (newText.trim() === "") {
+                alert("Task cannot be empty!");
+                return;
+            }
+
+            tasks[index].text = newText.trim();
+            saveTasks();
+            displayTasks();
+        };
+
+        // Delete button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.textContent = "✕ Delete";
+
+        deleteBtn.onclick = function() {
+
+            if (confirm("Delete this task?")) {
+                tasks.splice(index, 1);
+                saveTasks();
+                displayTasks();
+            }
+        };
+
+        actions.appendChild(doneBtn);
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+
+        li.appendChild(top);
+        li.appendChild(actions);
+
+        taskList.appendChild(li);
+    });
+
+    updateStats();
+}
+
+// Add task
+taskForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const text = taskInput.value.trim();
+
+    if (text === "") {
+        alert("Please enter a task!");
+        return;
+    }
+
+    tasks.push({
+        text: text,
+        subject: subject.value,
+        date: taskDate.value,
+        priority: priority.value,
+        completed: false
+    });
+
+    saveTasks();
+
+    taskForm.reset();
+
+    displayTasks();
+});
+
+// Search
+searchInput.addEventListener("input", displayTasks);
+
+// Filter
+filterSelect.addEventListener("change", displayTasks);
+
+// Initial display
+displayTasks();
+
+
+// Pomodoro Timer
+let timeLeft = 25 * 60;
+let timerInterval = null;
+
+const timerDisplay = document.getElementById("timerDisplay");
+
+function updateTimer() {
+
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    timerDisplay.textContent =
+        String(minutes).padStart(2, "0") +
+        ":" +
+        String(seconds).padStart(2, "0");
+}
+
+// Start timer
+document.getElementById("startBtn").onclick = function() {
+
+    if (timerInterval !== null) return;
+
+    if (timeLeft <= 0) return;
+
+    timerInterval = setInterval(function() {
+
+        timeLeft--;
+
+        updateTimer();
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            alert("Great job! Focus session completed! 🌸");
+        }
+
+    }, 1000);
+};
+
+// Pause timer
+document.getElementById("pauseBtn").onclick = function() {
+
+    clearInterval(timerInterval);
+    timerInterval = null;
+};
+
+// Reset timer
+document.getElementById("resetBtn").onclick = function() {
+
+    clearInterval(timerInterval);
+    timerInterval = null;
+
+    timeLeft = 25 * 60;
+
+    updateTimer();
+};
+
+updateTimer();
+
+</script>
+
+</body>
+</html>
+
+
